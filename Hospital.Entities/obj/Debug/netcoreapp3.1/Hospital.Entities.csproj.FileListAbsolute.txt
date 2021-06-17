@@ -1,0 +1,9 @@
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.deps.json
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.dll
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.pdb
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.csprojAssemblyReference.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.AssemblyInfoInputs.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.AssemblyInfo.cs
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.csproj.CoreCompileInputs.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.dll
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.pdb

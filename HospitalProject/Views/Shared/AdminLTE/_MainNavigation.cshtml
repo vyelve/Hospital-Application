@@ -1,0 +1,97 @@
+﻿@using static HospitalProject.Helpers.NavigationIndicatorHelper;
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="~/Home" class="brand-link">
+        <img src="@Url.Content("~/img/AdminLTELogo.png")" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Hospital</span>
+    </a>
+    <div class="sidebar">
+        @if (User.Identity.IsAuthenticated)
+        {
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+        <img src="@Url.Content("~/img/user2-160x160.jpg")" class="img-circle elevation-2" alt="User Image">
+    </div>
+    <div class="info">
+        <a href="#" class="d-block">Hi, @User.Identity.Name </a>
+    </div>
+</div> }
+else
+{
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="info">
+        <a href="#" class="d-block">Hi, Visitor</a>
+    </div>
+</div>}
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item ">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                </li>
+                @*@if (User.Identity.IsAuthenticated)
+                    {*@
+
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Master
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a asp-controller="Department" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-building"></i>
+                                <p>
+                                    Department Mater
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Designation" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-id-card-alt"></i>
+                                <p>
+                                    Designation Mater
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="User" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-hospital-user"></i>
+                                <p>
+                                    User Mater
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="Nurse" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-nurse"></i>
+                                <p>
+                                    Nurse Mater
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Specialization" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-notes-medical"></i>
+                                <p>
+                                    Specialization Mater
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                @*  *@}
+            </ul>
+        </nav>
+    </div>
+</aside>

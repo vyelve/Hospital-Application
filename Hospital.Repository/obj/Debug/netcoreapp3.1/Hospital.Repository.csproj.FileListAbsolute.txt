@@ -1,0 +1,12 @@
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\bin\Debug\netcoreapp3.1\Hospital.Repository.deps.json
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\bin\Debug\netcoreapp3.1\Hospital.Repository.dll
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\bin\Debug\netcoreapp3.1\Hospital.Repository.pdb
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\bin\Debug\netcoreapp3.1\Hospital.Entities.dll
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\bin\Debug\netcoreapp3.1\Hospital.Entities.pdb
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.csprojAssemblyReference.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.AssemblyInfoInputs.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.AssemblyInfo.cs
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.csproj.CoreCompileInputs.cache
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.csproj.CopyComplete
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.dll
+F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Repository\obj\Debug\netcoreapp3.1\Hospital.Repository.pdb

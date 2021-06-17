@@ -1,0 +1,107 @@
+﻿@model HospitalProject.ViewModel.SpecializationViewModel
+@{
+    ViewBag.Title = "Specialization";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer !important;
+    }
+</style>
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Create Specialization</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mt-3" id="specializationform">
+                    <div class="form-group row">
+                        <label asp-for="SpecializationName" class="col-sm-2 col-form-label">Specialization</label>
+                        <div class="col-sm-4">
+                            <input id="txtSpecializationName" asp-for="SpecializationName" class="form-control" placeholder="Specialization">
+                            <span asp-validation-for="SpecializationName" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="SpecializationDescription" class="col-sm-2 col-form-label">Specialization Description</label>
+                        <div class="col-sm-4">
+                            <input id="txtSpecializationDescription" asp-for="SpecializationDescription" class="form-control" placeholder="SpecializationDescription">
+                            <span asp-validation-for="SpecializationDescription" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="IsActive" class="col-sm-2 col-form-label">Is Active</label>
+                        <div class="col-sm-10">
+                            <div>
+                                <input type="checkbox" asp-for="IsActive" class="form-check-input" id="chkIsActive"
+                                       data-toggle="toggle" data-on="Active" data-off="In Active" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <input hidden asp-for="SpecialistID" id="hdnSpecialistID" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                <center>
+                                    <input value="Submit" type="submit" id="btnSubmit" class="btn btn-primary" />
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Specialization List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblSpecialization" class="table table-striped responsive-utilities jambo_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 no-gutter">
+        <div id="myAlert" class="alert alert-New ">
+            <strong><span id="lblStatus"></span></strong><span id="lblMessage"></span>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $('#chkIsActive').bootstrapToggle('on');
+    });
+
+    var jsonData =@Html.Raw(Json.Serialize(Model.TblSpecialization));
+    console.log(jsonData);
+
+    window.operateEvents = {
+        'click .editspecialization': function (e, value, row, index) {
+            var _specializationModel = new SpecializationModel();
+            _specializationModel.resetSpecializationModel();
+            Window.existingModel = row;
+            _specializationModel.setSpecializationModel(row);
+        }
+    }
+</script>
+<script src="@Url.Content("~/ApplicationScripts/specialization.js")"></script>

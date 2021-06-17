@@ -1,0 +1,126 @@
+﻿@using HospitalProject.ViewModel
+@model HospitalProject.ViewModel.NurseViewModel
+@{
+    ViewBag.Title = "Nurse";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer !important;
+    }
+</style>
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Create Nurse</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mt-3" id="nurseform">
+                    <div class="form-group row">
+                        <label asp-for="NurseId" class="col-sm-2 col-form-label">Nurse</label>
+                        <div class="col-sm-4">
+                            <select asp-for="NurseId" class="form-control" id="ddlNurse" asp-items="@(new SelectList(ViewBag.UserDropdown,"Value", "Text"))">
+                                <option value="">Select Nurse</option>
+                            </select>
+                            <span asp-validation-for="NurseId" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="NurseTypeEnum" class="col-sm-2  col-form-label">Type</label>
+                        <div class="col-sm-4">
+                            <select asp-for="NurseTypeEnum" id="ddlNurseType" class="form-control" asp-items="Html.GetEnumSelectList<NurseTypeEnum>()">
+                                <option value="">Select Type</option>
+                            </select>
+                            <span asp-validation-for="NurseTypeEnum" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="ShifTypeEnum" class="col-sm-2  col-form-label">Shift Type</label>
+                        <div class="col-sm-4">
+                            <select asp-for="ShifTypeEnum" id="ddlShiftType" class="form-control" asp-items="Html.GetEnumSelectList<ShifTypeEnum>()">
+                                <option value="">Select Shift Type</option>
+                            </select>
+                            <span asp-validation-for="ShifTypeEnum" class="text-danger field-validation-valid"></span>
+                        </div>
+
+                        <label asp-for="IsActive" class="col-sm-2 col-form-label">Is Active</label>
+                        <div class="col-sm-4">
+                            <div>
+                                <input type="checkbox" asp-for="IsActive" class="form-check-input" id="chkIsActive"
+                                       data-toggle="toggle" data-on="Active" data-off="In Active" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <input hidden asp-for="NurID" id="hdnNurID" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                <center>
+                                    <input value="Submit" type="submit" id="btnSubmit" class="btn btn-primary" />
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Nurse List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table id="tblNurse" class="table table-striped responsive-utilities jambo_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 no-gutter">
+        <div id="myAlert" class="alert alert-New ">
+            <strong><span id="lblStatus"></span></strong><span id="lblMessage"></span>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#chkIsActive').bootstrapToggle('on');
+    });
+
+    var jsonData =@Html.Raw(Json.Serialize(Model.TblNurses));
+
+    window.operateEvents = {
+        'click .editNurse': function (e, value, row, index) {
+            debugger;
+            var _nurseModel = new NurseModel();
+            _nurseModel.resetNurseModel();
+            Window.existingModel = row;
+            _nurseModel.setNurseModel(row);
+        }
+    }
+</script>
+<script src="@Url.Content("~/ApplicationScripts/nurse.js")"></script>
