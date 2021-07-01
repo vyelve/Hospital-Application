@@ -47,7 +47,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult CreateSpecialization(string specializationModel)
         {
-            SpecializationViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<SpecializationViewModel>(specializationModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<SpecializationViewModel>(specializationModel);
             if (ModelState.IsValid)
             {
                 var _specialization = new Specialization
@@ -71,7 +71,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult EditSpecialization(string specializationModel)
         {
-            SpecializationViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<SpecializationViewModel>(specializationModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<SpecializationViewModel>(specializationModel);
             if (ModelState.IsValid)
             {
                 var _specialization = _specializationRepository.GetSpecializationsById(model.SpecialistID);

@@ -23,7 +23,7 @@ namespace HospitalProject.Controllers
                 new DepartmentViewModel
                 {
                     DeptId = sel.DeptId,
-                    DepartmentName = sel.DepartmentName,
+                    DepartmentName = sel.DepartmentName,                    
                     IsActive = sel.IsActive,
                     CreatedBy = sel.CreatedBy,
                     CreatedAt = sel.CreatedAt,
@@ -43,7 +43,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult CreateDepartment(string departmentModel)
         {
-            DepartmentViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<DepartmentViewModel>(departmentModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<DepartmentViewModel>(departmentModel);
             if (ModelState.IsValid)
             {
                 var _department = new Department
@@ -80,7 +80,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult EditDepartment(string departmentModel)
         {
-            DepartmentViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<DepartmentViewModel>(departmentModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<DepartmentViewModel>(departmentModel);
 
             if (ModelState.IsValid)
             {

@@ -32,8 +32,8 @@ namespace HospitalProject.Controllers
             var departments = _departmentRepository.GetDepartments().ToList().Where(whr => whr.IsActive == true).Select(sel => sel);
             var designation = _designationRepository.GetDesignation().ToList().Where(whr => whr.IsActive == true).Select(sel => sel);
 
-            ViewBag.DepartmentDropdown = new SelectList(departments.ToList(), "DeptId", "DepartmentName");
-            ViewBag.DesignationDropdown = new SelectList(designation.ToList(), "DesignationID", "DesignationName");
+            ViewBag.DepartmentDropdown = new SelectList(departments, "DeptId", "DepartmentName");
+            ViewBag.DesignationDropdown = new SelectList(designation, "DesignationID", "DesignationName");
 
             var viewModel = new UserViewModel
             {
@@ -47,9 +47,10 @@ namespace HospitalProject.Controllers
                     EmailId = sel.EmailId,
                     Gender = sel.Gender,
                     DesignationId = sel.DesignationId,
-                    DesignationName = designation.Where(whr => whr.DesignationID == sel.DesignationId).Select(x => x.DesignationName).SingleOrDefault(),
+                    DesignationName = designation.Where(whr => whr.DesignationID == sel.DesignationId).Select(x => x.DesignationName)
+                    .FirstOrDefault(),
                     DepartmentID = sel.DepartmentID,
-                    DepartmentName = departments.Where(whr => whr.DeptId == sel.DepartmentID).Select(x => x.DepartmentName).SingleOrDefault(),
+                    DepartmentName = departments.Where(whr => whr.DeptId == sel.DepartmentID).Select(x => x.DepartmentName).FirstOrDefault(),
                     PhoneNumber = sel.PhoneNumber,
                     Password = sel.Password,
                     ConfirmPassword = sel.Password,
@@ -74,7 +75,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult CreateUser(string userModel)
         {
-            UserViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<UserViewModel>(userModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<UserViewModel>(userModel);
             if (ModelState.IsValid)
             {
                 var _user = new User
@@ -106,7 +107,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult EditUser(string userModel)
         {
-            UserViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<UserViewModel>(userModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<UserViewModel>(userModel);
             if (ModelState.IsValid)
             {
                 var user = _userRepository.GetUserById(model.UserID);
@@ -151,7 +152,9 @@ namespace HospitalProject.Controllers
         [HttpGet]
         public JsonResult ValidatedNurseUserActive(int UserId)
         {
-            var nurse = _nurseRepository.GetNurseDetails().Where(whr => whr.NurseId == UserId && whr.IsActive == true).Select(sel => sel).SingleOrDefault();
+            var nurse = _nurseRepository.GetNurseDetails().Where(whr => whr.NurseId == UserId
+            && whr.IsActive == true)
+                .Select(sel => sel).SingleOrDefault();
             var model = new UserViewModel();
             if (nurse != null)
             {

@@ -26,14 +26,12 @@ namespace HospitalProject.Controllers
 
         private NurseViewModel BindData()
         {
-            var _userList = _userRepository.GetUserDetails().ToList();
-            var _designation = _designationRepository.GetDesignation().ToList();
+            var _userList = _userRepository.GetUserDetails().Where(whr => whr.IsActive == true).ToList();
+            var _designation = _designationRepository.GetDesignation().Where(whr => whr.IsActive == true).ToList();
 
             var users = (from u in _userList
                          join d in _designation on u.DesignationId equals d.DesignationID
-                         where u.IsActive == true
-                            && d.IsActive == true
-                            && d.DesignationName == "Nurses"
+                         where d.DesignationName == "Nurses"
                          select new { UserID = u.UserID, Name = u.FirstName + " " + u.LastName }).ToList();
 
             ViewBag.UserDropdown = new SelectList(users.ToList(), "UserID", "Name");
@@ -42,13 +40,12 @@ namespace HospitalProject.Controllers
 
             var viewModel = new NurseViewModel
             {
-                
                 TblNurses = _nurseRepository.GetNurseDetails().Select(sel =>
                 new NurseViewModel
                 {
                     NurID = sel.NurID,
                     NurseId = sel.NurseId,
-                    NurseName = users.Where(whr => whr.UserID == sel.NurseId).Select(x => x.Name).SingleOrDefault(),
+                    NurseName = users.Where(whr => whr.UserID == sel.NurseId).Select(x => x.Name).FirstOrDefault(),
                     NurseType = sel.NurseType == nursetype ? NurseTypeEnum.Parttime.GetDisplayName() : sel.NurseType,
                     ShiftType = sel.ShiftType,
                     IsActive = sel.IsActive,
@@ -58,7 +55,7 @@ namespace HospitalProject.Controllers
                     ModifiedAt = sel.ModifiedAt
                 }).OrderBy(ord => ord.NurseName).ToList()
             };
-            
+
             return viewModel;
         }
 
@@ -71,7 +68,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult CreateNurse(string nurseModel)
         {
-            NurseViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<NurseViewModel>(nurseModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<NurseViewModel>(nurseModel);
             if (ModelState.IsValid)
             {
                 var _nurse = new Nurse
@@ -96,7 +93,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult EditNurse(string nurseModel)
         {
-            NurseViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<NurseViewModel>(nurseModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<NurseViewModel>(nurseModel);
             if (ModelState.IsValid)
             {
                 var nurse = _nurseRepository.GetNurseDetailsById(model.NurID);

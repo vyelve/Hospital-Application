@@ -46,7 +46,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult CreateDesignation(string designationModel)
         {
-            DesignationViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<DesignationViewModel>(designationModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<DesignationViewModel>(designationModel);
             if (ModelState.IsValid)
             {
                 var _designation = new Designation
@@ -69,7 +69,7 @@ namespace HospitalProject.Controllers
         [HttpPost]
         public ActionResult EditDesignation(string designationModel)
         {
-            DesignationViewModel model = Newtonsoft.Json.JsonConvert.DeserializeObject<DesignationViewModel>(designationModel);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<DesignationViewModel>(designationModel);
 
             if (ModelState.IsValid)
             {
