@@ -1,4 +1,15 @@
-﻿
+﻿function SetAlert(_icon, message) {
+    var alertPopUp = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    alertPopUp.fire({ icon: _icon, title: message });
+}
+
+
 function SetAlertDiv(AlertDivID, isError, status, message) {
     var alertControl = $("#" + AlertDivID);
     if (isError) {
@@ -7,7 +18,9 @@ function SetAlertDiv(AlertDivID, isError, status, message) {
     else {
         alertControl.addClass('alert-success').removeClass('');
     }
-    alertControl.find('span[id="lblStatus"]')[0].innerHTML = status;
-    alertControl.find('span[id="lblMessage"]')[0].innerHTML = message;
-    alertControl.fadeIn(1000).delay(5000).fadeOut(1000);
+    // uncomment when this function is in use
+    //alertControl.find('span[id="lblStatus"]')[0].innerHTML = status;
+    //alertControl.find('span[id="lblMessage"]')[0].innerHTML = message;
+    //alertControl.fadeIn(1000).delay(5000).fadeOut(1000);
 }
+

@@ -26,6 +26,27 @@ function BindUserGrid(jsonData) {
         exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
         columns: [
             {
+                field: 'Edit',
+                title: 'Edit',
+                align: 'Center',
+                valign: 'bottom',
+                sortable: false,
+                editable: false,
+                formatter: editRowFormatter,
+                events: window.operateEvents,
+                width: '5%'
+            },
+            {
+                field: 'Delete',
+                title: 'Delete',
+                align: 'Center',
+                valign: 'bottom',
+                sortable: false,
+                editable: false,
+                formatter: deleteRowFormatter,
+                width: '5%'
+            },
+            {
                 field: 'userShortName',
                 title: 'Short Name',
                 align: 'left',
@@ -104,27 +125,6 @@ function BindUserGrid(jsonData) {
                 valign: 'bottom',
                 sortable: true,
                 width: '5%'
-            },
-            {
-                field: 'Edit',
-                title: 'Edit',
-                align: 'Center',
-                valign: 'bottom',
-                sortable: false,
-                editable: false,
-                formatter: editRowFormatter,
-                events: window.operateEvents,
-                width: '5%'
-            },
-            {
-                field: 'Delete',
-                title: 'Delete',
-                align: 'Center',
-                valign: 'bottom',
-                sortable: false,
-                editable: false,
-                formatter: deleteRowFormatter,
-                width: '5%'
             }]
     });
 }
@@ -163,7 +163,7 @@ function UserModel() {
         DOJ: $('#txtDOJ').val(),
         isActive: $('#chkIsActive').prop('checked'),
     },
-    this.getUserModel = function () {
+        this.getUserModel = function () {
             return this.user;
         }
     this.setUserModel = function (Data) {
@@ -233,7 +233,7 @@ $(function () {
         var submit = true;
         if (!$("#userform").valid()) {
             submit = false;
-            SetAlertDiv("myAlert", true, 'Warning! ', 'Validation failed.');
+            SetAlert('error', 'Validation failed.');
         }
         if ($Submitbtn.val() !== "Submit") {
             var _userModel = new UserModel();
@@ -247,12 +247,12 @@ $(function () {
             try {
                 SaveUserDetails();
                 window.existingModel = null;
-                reloadPage();
+                setTimeout(function () { ReloadPage(); }, 4000);
             }
             catch (err) {
                 if (arguments !== null && arguments.callee !== null && arguments.callee.trace)
                     logError(err, arguments.callee.trace());
-                SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                SetAlert('error', 'Error Occured While Processing Data.');
             }
         }
     });
@@ -262,8 +262,7 @@ $(function () {
         var _userModel = new UserModel();
         _userModel.resetUserModel();
         Window.existingModel = null;
-        reloadPage();
-
+        ReloadPage();
     });
 });
 
@@ -284,25 +283,24 @@ var SaveUserDetails = function () {
         data: { userModel: jsonData },
         success: function (result) {
             if (_command === "Submit") {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been added.');
+                SetAlert('success', 'Record has been added.');
             }
             else {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been updated.');
+                SetAlert('success', 'Record has been updated.');
             }
             _userModel.resetUserModel();
             console.log(result.tblUsers);
             BindUserGrid(result.tblUsers);
         },
         error: function (e) {
-            SetAlertDiv("myAlert", true, 'Warning! ', ' Error Occured While Processing Data.');
+            SetAlert('error', 'Error Occured While Processing Data.');
         },
         complete: function () {
-            
         }
     });
 }
 
-function ValidatedNurseUserActive(ID) {   
+function ValidatedNurseUserActive(ID) {
     var result = false;
     if (ID !== "") {
         $.ajax({
@@ -313,7 +311,7 @@ function ValidatedNurseUserActive(ID) {
             data: { "UserId": ID },
             success: function (res) {
                 if (res.message.toLowerCase() === "user is mapped") {
-                    SetAlertDiv("myAlert", true, 'Warning! ', 'User is Mapped cannot Modify.');
+                    SetAlert('error', 'User is Mapped cannot Modify.');
                     result = false;
                 }
                 else {
@@ -321,17 +319,17 @@ function ValidatedNurseUserActive(ID) {
                 }
             },
             error: function (e) {
-                SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                SetAlert('error', 'Error Occured While Processing Data.');
             },
             complete: function () {
-               
+
             }
         });
     }
     return result;
 }
 
-function reloadPage() {
+function ReloadPage() {
     var Url = '/User/Index';
     location.href = Url;
 }
@@ -350,11 +348,12 @@ function DeleteUser(ID) {
                     dataType: "JSON",
                     data: { "UserId": ID },
                     success: function (res) {
-                        SetAlertDiv("myAlert", false, 'Success! ', ' Record Deleted Successfully');
+                        SetAlert('success', 'Record Deleted Successfully.');
                         BindUserGrid(res.tblUsers);
+                        setTimeout(function () { ReloadPage(); }, 4000);
                     },
                     error: function (e) {
-                        SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                        SetAlert('error', 'Error Occured While Processing Data.');
                     },
                     complete: function () {
                     }

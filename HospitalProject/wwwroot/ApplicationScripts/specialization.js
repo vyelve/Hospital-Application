@@ -28,6 +28,27 @@ function BindSpecializationGrid(jsonData) {
         exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
         columns: [
             {
+                field: 'Edit',
+                title: 'Edit',
+                align: 'Center',
+                valign: 'bottom',
+                sortable: false,
+                editable: false,
+                formatter: editRowFormatter,
+                events: window.operateEvents,
+                width: '5%'
+            },
+            {
+                field: 'Delete',
+                title: 'Delete',
+                align: 'Center',
+                valign: 'bottom',
+                sortable: false,
+                editable: false,
+                formatter: deleteRowFormatter,
+                width: '5%'
+            },
+            {
                 field: 'specializationName',
                 title: 'Specialization',
                 align: 'left',
@@ -49,27 +70,6 @@ function BindSpecializationGrid(jsonData) {
                 align: 'center',
                 valign: 'middle',
                 sortable: true,
-                width: '5%'
-            },
-            {
-                field: 'Edit',
-                title: 'Edit',
-                align: 'Center',
-                valign: 'bottom',
-                sortable: false,
-                editable: false,
-                formatter: editRowFormatter,
-                events: window.operateEvents,
-                width: '5%'
-            },
-            {
-                field: 'Delete',
-                title: 'Delete',
-                align: 'Center',
-                valign: 'bottom',
-                sortable: false,
-                editable: false,
-                formatter: deleteRowFormatter,
                 width: '5%'
             }]
     });
@@ -98,9 +98,9 @@ function SpecializationModel() {
         specializationDescription: $('#txtSpecializationDescription').val(),
         isActive: $('#chkIsActive').prop('checked'),
     },
-    this.getSpecializationModel = function () {
-        return this.specialization;
-    }
+        this.getSpecializationModel = function () {
+            return this.specialization;
+        }
     this.setSpecializationModel = function (Data) {
         $('#hdnSpecialistID').val(Data.specialistID);
         $('#txtSpecializationName').val(Data.specializationName);
@@ -128,13 +128,14 @@ $(function () {
             try {
                 SaveSpecializationData();
                 window.existingModel = null;
+                setTimeout(function () { ReloadPage(); }, 4000);
             }
             catch (err) {
                 if (arguments !== null && arguments.callee !== null && arguments.callee.trace)
                     logError(err, arguments.callee.trace());
             }
         else {
-            SetAlertDiv("myAlert", true, 'Warning! ', 'Validation failed.');
+            SetAlert('error', 'Validation failed.');
         }
     });
 
@@ -143,11 +144,14 @@ $(function () {
         var _specializationModel = new SpecializationModel();
         _specializationModel.resetSpecializationModel();
         Window.existingModel = null;
-
-        var Url = '/Specialization/Index';
-        location.href = Url;
+        ReloadPage();
     });
 });
+
+function ReloadPage() {
+    var Url = '/Specialization/Index';
+    location.href = Url;
+}
 
 var SaveSpecializationData = function () {
     var _specializationModel = new SpecializationModel();
@@ -165,16 +169,16 @@ var SaveSpecializationData = function () {
         async: false,
         success: function (result) {
             if (_command === "Submit") {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been added.');
+                SetAlert('success', 'Record has been added.');
             }
             else {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been updated.');
+                SetAlert('success', 'Record has been updated.');
             }
             _specializationModel.resetSpecializationModel();
             BindSpecializationGrid(result.tblSpecialization);
         },
         error: function (e) {
-            SetAlertDiv("myAlert", true, 'Warning! ', ' Error Occured While Processing Data.');
+            SetAlert('error', 'Error Occured While Processing Data.');
         },
         complete: function () {
         }
@@ -190,11 +194,12 @@ function DeleteSpecialization(ID) {
                     dataType: "JSON",
                     data: { "specialistID": ID },
                     success: function (res) {
-                        SetAlertDiv("myAlert", false, 'Success! ', ' Record Deleted Successfully');
+                        SetAlert('success', 'Record Deleted Successfully.');
                         BindSpecializationGrid(res.tblSpecialization);
+                        setTimeout(function () { ReloadPage(); }, 4000);
                     },
                     error: function (e) {
-                        SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                        SetAlert('error', 'Error Occured While Processing Data.');
                     },
                     complete: function () {
                     }

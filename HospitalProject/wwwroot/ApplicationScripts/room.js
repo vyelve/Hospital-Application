@@ -3,15 +3,17 @@ var $Cancelbtn = $('#btnCancel');
 window.existingModel = null;
 
 if (jsonData !== null) {
-    BindNurseGrid(jsonData);
+    BindRoomGrid(jsonData);
 }
 
-function BindNurseGrid(jsonData) {
+function BindRoomGrid(jsonData) {
+
     for (var i = 0; i < jsonData.length; i++) {
         jsonData[i].isActive = jsonData[i].isActive === true ? "Active" : "In Active";
     }
-    $('#tblNurse').bootstrapTable('destroy');
-    $('#tblNurse').bootstrapTable({
+
+    $('#tblRoom').bootstrapTable('destroy');
+    $('#tblRoom').bootstrapTable({
         data: jsonData,
         height: 500,
         pagination: true,
@@ -47,24 +49,16 @@ function BindNurseGrid(jsonData) {
                 width: '5%'
             },
             {
-                field: 'nurseName',
-                title: 'Nurse Name',
+                field: 'roomType',
+                title: 'Room Name',
                 align: 'left',
                 valign: 'bottom',
                 sortable: true,
                 width: '30%'
             },
             {
-                field: 'nurseType',
-                title: 'Type',
-                align: 'left',
-                valign: 'bottom',
-                sortable: true,
-                width: '30%'
-            },
-            {
-                field: 'shiftType',
-                title: 'Shift Type',
+                field: 'per_Day_Charges',
+                title: 'Per Day Charges',
                 align: 'left',
                 valign: 'bottom',
                 sortable: true,
@@ -81,74 +75,64 @@ function BindNurseGrid(jsonData) {
     });
 }
 
+
 function getHeight() {
     return $(window).height();
 }
 
 function editRowFormatter(value, row, index) {
     return [
-        '<a href="javascript:void(0);" class="editNurse fas fa-edit" data-title="Edit" title="Edit"></a>'
+        '<a href="javascript:void(0);" class="editRoom fas fa-edit" data-title="Edit" title="Edit"></a>'
     ].join('');
 }
 
 function deleteRowFormatter(value, row, index) {
     return [
-        '<a class="fas fa-trash" style="color: red;" href="javascript:void(0);" onclick="DeleteNurse(\'' + row.nurID + '\');" data-title="Delete" title="Delete"></a>'
+        '<a class="fas fa-trash" style="color: red;" href="javascript:void(0);" onclick="DeleteRoom(\'' + row.roomId + '\');" data-title="Delete" title="Delete"></a>'
     ].join('');
 }
 
 function ReloadPage() {
-    var Url = '/Nurse/Index';
+    var Url = '/Room/Index';
     location.href = Url;
 }
 
-function NurseModel() {
-    this.nurse = {
-        nurID: $('#hdnNurID').val(),
-        nurseId: $('#ddlNurse option:selected').val(),
-        nurseName: $('#ddlNurse option:selected').text(),
-        nurseType: $('#ddlNurseType option:selected').val(),
-        shiftType: $('#ddlShiftType option:selected').val(),
+function RoomDetailsModel() {
+    this.room = {
+        roomId: $('#hdnRoomId').val(),
+        roomType: $('#txtRoomType').val(),
+        per_Day_Charges: $('#txtPerDayCharges').val(),
         isActive: $('#chkIsActive').prop('checked'),
     },
-        this.getNurseModel = function () {
-            return this.nurse;
-        }
-    this.setNurseModel = function (Data) {
-        $('#hdnNurID').val(Data.nurID);
-        $('#ddlNurse').val(Data.nurseId);
-        $('#ddlNurseType').val(Data.nurseType.trim());
-        $("#ddlNurseType option:contains(" + Data.nurseType.trim() + ")").attr('selected', true);
-        $('#ddlShiftType ').val(Data.shiftType.trim());
-        $("#ddlShiftType option:contains(" + Data.shiftType.trim() + ")").attr('selected', true);
+    this.getRoomDetailsModel = function () {
+        return this.room;
+    }
+    this.setRoomDetailsModel = function (Data) {
+        $('#hdnRoomId').val(Data.roomId);
+        $('#txtRoomType').val(Data.roomType);
+        $('#txtPerDayCharges').val(Data.per_Day_Charges);
         Data.isActive === "Active" ? $('#chkIsActive').prop('checked', true).change() : $('#chkIsActive').prop('checked', false).change();
         $("#btnSubmit").val('Update');
     }
-    this.resetNurseModel = function () {
-        $('#hdnNurID').val('0');
-        $('#ddlNurse option:eq(0)').attr('selected', 'selected');
-        $('#ddlNurse').prop('SelectedIndex', 0);
-        $('#ddlNurse').val('');
-        $('#ddlNurseType').val('');
-        $('#ddlNurseType option:selected').removeAttr('selected');
-
-        $('#ddlShiftType').val('');
+    this.resetRoomDetailsModel = function () {
+        $('#hdnRoomId').val('0');
+        $('#txtRoomType').val('');
+        $('#txtPerDayCharges').val('');
         $('#chkIsActive').prop('checked', true).change();
         $("#btnSubmit").val('Submit');
     }
 }
 
 $(function () {
-
     $Submitbtn.bind('click', function (e) {
         e.preventDefault();
         var submit = true;
-        if (!$("#nurseform").valid()) {
+        if (!$("#roomform").valid()) {
             submit = false;
         }
         if (submit)
             try {
-                SaveNurseDetails();
+                SaveRoomData();
                 window.existingModel = null;
                 setTimeout(function () { ReloadPage(); }, 4000);
             }
@@ -157,46 +141,48 @@ $(function () {
                     logError(err, arguments.callee.trace());
             }
         else {
+            //SetAlertDiv("myAlert", true, 'Warning! ', 'Validation failed.');
             SetAlert('error', 'Validation failed.');
         }
     });
 
     $Cancelbtn.bind('click', function (e) {
         e.preventDefault();
-        var _nurseModel = new NurseModel();
-        _nurseModel.resetNurseModel();
+        var _roomModel = new RoomDetailsModel();
+        _roomModel.resetRoomDetailsModel();
         Window.existingModel = null;
         ReloadPage();
     });
 });
 
-var SaveNurseDetails = function () {
-    var _nurseModel = new NurseModel();
-    var _model = _nurseModel.getNurseModel();
+var SaveRoomData = function () {
+    var _roomModel = new RoomDetailsModel();
+    var _model = _roomModel.getRoomDetailsModel();
     var _command = $('#btnSubmit').val();
     var jsonData = JSON.stringify(_model);
-    console.log(jsonData);
 
     $.ajax({
-        url: _command === "Submit" ? '/Nurse/CreateNurse' : '/Nurse/EditNurse',
+        url: _command === "Submit" ? '/Room/CreateRoom' : '/Room/EditRoom',
         dataType: "JSON",
         type: "POST",
         cache: false,
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        data: { nurseModel: jsonData },
+        data: { roomModel: jsonData },
         async: false,
         success: function (result) {
             if (_command === "Submit") {
+                //SetAlertDiv("myAlert", false, 'Success! ', ' Record has been added.');
                 SetAlert('success', 'Record has been added.');
             }
             else {
+                //SetAlertDiv("myAlert", false, 'Success! ', ' Record has been updated.');
                 SetAlert('success', 'Record has been updated.');
             }
-            _nurseModel.resetNurseModel();
-            console.log(result.tblNurse);
-            BindNurseGrid(result.tblNurses);
+            _roomModel.resetRoomDetailsModel();
+            BindRoomGrid(result.tblRoom);
         },
         error: function (e) {
+            //SetAlertDiv("myAlert", true, 'Warning! ', ' Error Occured While Processing Data.');
             SetAlert('error', 'Error Occured While Processing Data.');
         },
         complete: function () {
@@ -204,21 +190,24 @@ var SaveNurseDetails = function () {
     });
 }
 
-function DeleteNurse(ID) {
+function DeleteRoom(ID) {
     bootbox.confirm("Do you want to delete the Record?", function (result) {
         if (result) {
             if (ID !== "") {
                 $.ajax({
-                    url: '/Nurse/DeleteNurse',
+                    url: '/Room/DeleteRoom',
                     type: "PUT",
                     dataType: "JSON",
-                    data: { "nurseId": ID },
+                    data: { "ID": ID },
+                    async: false,
                     success: function (res) {
+                        //SetAlertDiv("myAlert", false, 'Success! ', ' Record Deleted Successfully');
                         SetAlert('success', 'Record Deleted Successfully.');
-                        BindNurseGrid(res.tblNurses);
+                        BindRoomGrid(res.tblRoom); 
                         setTimeout(function () { ReloadPage(); }, 4000);
                     },
                     error: function (e) {
+                        //SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
                         SetAlert('error', 'Error Occured While Processing Data.');
                     },
                     complete: function () {

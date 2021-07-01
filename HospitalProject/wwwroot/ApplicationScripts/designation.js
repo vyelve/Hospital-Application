@@ -28,22 +28,6 @@ function BindDesignationGrid(jsonData) {
         exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
         columns: [
             {
-                field: 'designationName',
-                title: 'Designation',
-                align: 'left',
-                valign: 'bottom',
-                sortable: true,
-                width: '30%'
-            },
-            {
-                field: 'isActive',
-                title: 'Active',
-                align: 'center',
-                valign: 'middle',
-                sortable: true,
-                width: '5%'
-            },
-            {
                 field: 'Edit',
                 title: 'Edit',
                 align: 'Center',
@@ -62,6 +46,22 @@ function BindDesignationGrid(jsonData) {
                 sortable: false,
                 editable: false,
                 formatter: deleteRowFormatter,
+                width: '5%'
+            },
+            {
+                field: 'designationName',
+                title: 'Designation',
+                align: 'left',
+                valign: 'bottom',
+                sortable: true,
+                width: '30%'
+            },
+            {
+                field: 'isActive',
+                title: 'Active',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
                 width: '5%'
             }]
     });
@@ -89,9 +89,9 @@ function DesignationModel() {
         designationName: $('#txtDesignationName').val(),
         isActive: $('#chkIsActive').prop('checked'),
     },
-    this.getDesignationModel = function () {
-        return this.designation;
-    }
+        this.getDesignationModel = function () {
+            return this.designation;
+        }
     this.setDesignationModel = function (Data) {
         $('#hdnDesignationID').val(Data.designationID);
         $('#txtDesignationName').val(Data.designationName);
@@ -117,13 +117,14 @@ $(function () {
             try {
                 SaveDesignationData();
                 window.existingModel = null;
+                setTimeout(function () { ReloadPage(); }, 4000);
             }
             catch (err) {
                 if (arguments !== null && arguments.callee !== null && arguments.callee.trace)
                     logError(err, arguments.callee.trace());
             }
         else {
-            SetAlertDiv("myAlert", true, 'Warning! ', 'Validation failed.');
+            SetAlert('error', 'Validation failed.');
         }
     });
 
@@ -132,14 +133,16 @@ $(function () {
         var _designationModel = new DesignationModel();
         _designationModel.resetDesignationModel();
         Window.existingModel = null;
-
-        var Url = '/Designation/Index';
-        location.href = Url;
+        ReloadPage();
     });
 });
 
-var SaveDesignationData = function () {
+function ReloadPage() {
+    var Url = '/Designation/Index';
+    location.href = Url;
+}
 
+var SaveDesignationData = function () {
     var _designationModel = new DesignationModel();
     var _model = _designationModel.getDesignationModel();
     var _command = $('#btnSubmit').val();
@@ -155,21 +158,21 @@ var SaveDesignationData = function () {
         async: false,
         success: function (result) {
             if (_command === "Submit") {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been added.');
+                SetAlert('success', 'Record has been added.');
             }
             else {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been updated.');
+                SetAlert('success', 'Record has been updated.');
             }
             _designationModel.resetDesignationModel();
             BindDesignationGrid(result.tblDesignation);
         },
         error: function (e) {
-            SetAlertDiv("myAlert", true, 'Warning! ', ' Error Occured While Processing Data.');
+            SetAlert('error', 'Error Occured While Processing Data.');
         },
         complete: function () {
         }
     });
-}   
+}
 
 function DeleteDesignation(ID) {
     bootbox.confirm("Do you want to delete the Record?", function (result) {
@@ -181,11 +184,12 @@ function DeleteDesignation(ID) {
                     dataType: "JSON",
                     data: { "DesignationId": ID },
                     success: function (res) {
-                        SetAlertDiv("myAlert", false, 'Success! ', ' Record Deleted Successfully');
+                        SetAlert('success', 'Record Deleted Successfully.');
                         BindDesignationGrid(res.tblDesignation);
+                        setTimeout(function () { ReloadPage(); }, 4000);
                     },
                     error: function (e) {
-                        SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                        SetAlert('error', 'Error Occured While Processing Data.');
                     },
                     complete: function () {
                     }

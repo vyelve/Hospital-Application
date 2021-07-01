@@ -28,22 +28,6 @@ function BindDepartmentGrid(jsonData) {
         exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
         columns: [
             {
-                field: 'departmentName',
-                title: 'Department',
-                align: 'left',
-                valign: 'bottom',
-                sortable: true,
-                width: '30%'
-            },
-            {
-                field: 'isActive',
-                title: 'Active',
-                align: 'center',
-                valign: 'middle',
-                sortable: true,
-                width: '5%'
-            },
-            {
                 field: 'Edit',
                 title: 'Edit',
                 align: 'Center',
@@ -62,6 +46,21 @@ function BindDepartmentGrid(jsonData) {
                 sortable: false,
                 editable: false,
                 formatter: deleteRowFormatter,
+                width: '5%'
+            },{
+                field: 'departmentName',
+                title: 'Department',
+                align: 'left',
+                valign: 'bottom',
+                sortable: true,
+                width: '30%'
+            },
+            {
+                field: 'isActive',
+                title: 'Active',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
                 width: '5%'
             }]
     });
@@ -108,7 +107,6 @@ function DepartmentModel() {
 }
 
 $(function () {
-
     $Submitbtn.bind('click', function (e) {
         e.preventDefault();
         var submit = true;
@@ -119,13 +117,15 @@ $(function () {
             try {
                 SaveDepartmentData();
                 window.existingModel = null;
+                setTimeout(function () { ReloadPage(); }, 4000);
+
             }
             catch (err) {
                 if (arguments !== null && arguments.callee !== null && arguments.callee.trace)
                     logError(err, arguments.callee.trace());
             }
         else {
-            SetAlertDiv("myAlert", true, 'Warning! ', 'Validation failed.');
+            SetAlert('error', 'Validation failed.');
         }
     });
 
@@ -134,11 +134,14 @@ $(function () {
         var _departmentModel = new DepartmentModel();
         _departmentModel.resetDepartmentModel();
         Window.existingModel = null;
-
-        var Url = '/Department/Index';
-        location.href = Url;
+        ReloadPage();
     });
 });
+
+function ReloadPage() {
+    var Url = '/Department/Index';
+    location.href = Url;
+}
 
 var SaveDepartmentData = function () {
     var _departmentModel = new DepartmentModel();
@@ -156,16 +159,16 @@ var SaveDepartmentData = function () {
         async: false,
         success: function (result) {
             if (_command === "Submit") {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been added.');
+                SetAlert('success', 'Record has been added.');
             }
             else {
-                SetAlertDiv("myAlert", false, 'Success! ', ' Record has been updated.');
+                SetAlert('success', 'Record has been updated.');
             }
             _departmentModel.resetDepartmentModel();
             BindDepartmentGrid(result.tblDepartment);
         },
         error: function (e) {
-            SetAlertDiv("myAlert", true, 'Warning! ', ' Error Occured While Processing Data.');
+            SetAlert('error', 'Error Occured While Processing Data.');
         },
         complete: function () {
         }
@@ -182,14 +185,14 @@ function DeleteDepartment(ID) {
                     dataType: "JSON",
                     data: { "DeptId": ID },
                     success: function (res) {
-                        SetAlertDiv("myAlert", false, 'Success! ', ' Record Deleted Successfully');
+                        SetAlert('success', 'Record Deleted Successfully.');
                         BindDepartmentGrid(res.tblDepartment);
+                        setTimeout(function () { ReloadPage(); }, 4000);
                     },
                     error: function (e) {
-                        SetAlertDiv("myAlert", true, 'Warning! ', 'Error Occured While Processing Data.');
+                        SetAlert('error', 'Error Occured While Processing Data.');
                     },
                     complete: function () {
-
                     }
                 });
             }
