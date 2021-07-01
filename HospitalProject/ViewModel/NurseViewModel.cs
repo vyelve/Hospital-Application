@@ -16,12 +16,12 @@ namespace HospitalProject.ViewModel
         public string NurseType { get; set; }
 
         [Display(Name ="Type")]
-        [Required(ErrorMessage = "Type required")]
+        [Required(ErrorMessage = "Type Required")]
         public NurseTypeEnum NurseTypeEnum { get; set; }
         public string ShiftType { get; set; }
 
         [Display(Name = "Shift Type")]
-        [Required(ErrorMessage = "Shift Type required")]
+        [Required(ErrorMessage = "Shift Type Required")]
         public ShifTypeEnum ShifTypeEnum { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

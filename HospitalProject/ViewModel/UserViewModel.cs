@@ -9,31 +9,31 @@ namespace HospitalProject.ViewModel
     {
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "First Name required")]
+        [Required(ErrorMessage = "First Name Required")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last Name required")]
+        [Required(ErrorMessage = "Last Name Required")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string UserShortName { get; set; }
 
-        [Required(ErrorMessage = "Email ID required")]
+        [Required(ErrorMessage = "Email ID Required")]
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
             ErrorMessage = "Please enter a valid e-mail address")]
         [Display(Name = "Email ID")]
         public string EmailId { get; set; }
         public string Gender { get; set; }
 
-        [Required(ErrorMessage = "Gender required")]
+        [Required(ErrorMessage = "Gender Required")]
         public GenderEnum GenderEnum { get; set; }
 
         [Display(Name = "Designation")]
-        [Required(ErrorMessage = "Designation required")]
+        [Required(ErrorMessage = "Designation Required")]
         public int DesignationId { get; set; }
         public string DesignationName { get; set; }
 
-        [Required(ErrorMessage = "Department required")]
+        [Required(ErrorMessage = "Department Required")]
         [Display(Name = "Department")]
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }

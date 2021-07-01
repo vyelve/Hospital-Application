@@ -11,7 +11,7 @@ namespace HospitalProject.ViewModel
         public int SpecialistID { get; set; }
 
         [Display(Name = "Specialization")]
-        [Required(ErrorMessage = "Specialization required")]
+        [Required(ErrorMessage = "Specialization Required")]
         public string SpecializationName { get; set; }
         public string SpecializationDescription { get; set; }
         public bool IsActive { get; set; }

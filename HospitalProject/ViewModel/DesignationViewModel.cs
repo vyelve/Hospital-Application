@@ -8,7 +8,7 @@ namespace HospitalProject.ViewModel
     {
         public int DesignationID { get; set; }
 
-        [Required(ErrorMessage = "Designation required")]
+        [Required(ErrorMessage = "Designation Required")]
         [Display(Name = "Designation")]
         public string DesignationName { get; set; }
         public bool IsActive { get; set; }

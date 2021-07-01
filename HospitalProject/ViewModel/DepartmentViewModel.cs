@@ -10,7 +10,7 @@ namespace HospitalProject.ViewModel
     {
         public int DeptId { get; set; }
 
-        [Required(ErrorMessage = "Department Name required")]
+        [Required(ErrorMessage = "Department Name Required")]
         [Display(Name = "Department Name")]
         public string DepartmentName { get; set; }
         public bool IsActive { get; set; }
