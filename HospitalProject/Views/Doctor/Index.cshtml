@@ -1,0 +1,150 @@
+﻿@model HospitalProject.ViewModel.DoctorViewModel
+@{ ViewBag.Title = "Doctor";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; }
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer !important;
+    }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Create Doctor</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mt-3" id="doctorform">
+                    <div class="form-group row">
+                        <label asp-for="DoctorId" class="col-sm-2 col-form-label">Doctor</label>
+                        <div class="col-sm-4">
+                            <select asp-for="DoctorId" class="form-control" id="ddlDoctor"
+                                    asp-items="@(new SelectList(ViewBag.DoctorDropdown,"Value", "Text"))">
+                                <option value="">Select Doctor</option>
+                            </select>
+                            <span asp-validation-for="DoctorId" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="DepartmentId" class="col-sm-2  col-form-label">Department</label>
+                        <div class="col-sm-4">
+                            <select asp-for="DepartmentId" id="ddlDepartment" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.DepartmentDropdown,"Value", "Text"))">
+                                <option value="">Select Department</option>
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="SpecialistID" class="col-sm-2  col-form-label">Specialist</label>
+                        <div class="col-sm-4">
+                            <select asp-for="SpecialistID" class="form-control" id="ddlSpecialist"
+                                    asp-items="@(new SelectList(ViewBag.SpecializationDropdown,"Value", "Text"))">
+                                <option value="">Select Specialist</option>
+                            </select>
+                            <span asp-validation-for="SpecialistID" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="Per_Day_Charges" class="col-sm-2 col-form-label">Per Day Charges</label>
+                        <div class="col-sm-4">
+                            <input id="txtPerDayCharges" asp-for="Per_Day_Charges" class="form-control" placeholder="Per Day Charges" value="">
+                            <span asp-validation-for="Per_Day_Charges" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="DoctorSchedule" class="col-sm-2 col-form-label">Doctor Schedule</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                </div>
+                                <input id="txtDoctorSchedule" type="text" asp-for="DoctorSchedule"
+                                       class="form-control float-right" placeholder="Doctor Schedule" value="" autocomplete="off">
+                            </div>
+                            <span asp-validation-for="DoctorSchedule" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="IsActive" class="col-sm-2 col-form-label">Is Active</label>
+                        <div class="col-sm-4">
+                            <div>
+                                <input type="checkbox" asp-for="IsActive" class="form-check-input" id="chkIsActive"
+                                       data-toggle="toggle" data-on="Active" data-off="In Active" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <input hidden asp-for="DocID" id="hdnDocID" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                <center>
+                                    <input value="Submit" type="submit" id="btnSubmit" class="btn btn-primary" />
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Doctor List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table id="tblDoctor" class="table table-striped responsive-utilities jambo_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#chkIsActive').bootstrapToggle('on');
+        $("#txtDoctorSchedule").val('');
+
+        $('#txtDoctorSchedule').daterangepicker({
+            autoUpdateInput: false,
+            timePicker: true,
+            timePickerIncrement: 30,
+            locale: {
+                format: 'DD/MM/YYYY hh:mm A'
+            }
+        });
+
+        $('#txtDoctorSchedule').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY hh:mm A') + ' - ' + picker.endDate.format('DD/MM/YYYY hh:mm A'));
+        });
+
+        $('#txtDoctorSchedule').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+    });
+
+    var jsonData =@Html.Raw(Json.Serialize(Model.TblDoctor));
+    window.operateEvents = {
+        'click .editDoctor': function (e, value, row, index) {
+            var _doctorModel = new DoctorModel();
+            _doctorModel.resetDoctorModel();
+            Window.existingModel = row;
+            _doctorModel.setDoctorModel(row);
+        }
+    }
+</script>
+<script src="@Url.Content("~/ApplicationScripts/doctor.js")"></script>

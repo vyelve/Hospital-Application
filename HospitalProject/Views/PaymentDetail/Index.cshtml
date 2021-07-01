@@ -1,0 +1,124 @@
+﻿@using HospitalProject.ViewModel
+@model HospitalProject.ViewModel.PaymentDetailViewModel
+@{ ViewBag.Title = "Payment Details";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; }
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer !important;
+    }
+</style>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Create Payment</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mt-3" id="paymentform">
+                    <div class="form-group row">
+                        <label asp-for="BillId" class="col-sm-2 col-form-label">Bill Number</label>
+                        <div class="col-sm-4">
+                            <select asp-for="BillId" class="form-control" id="ddlBillNumber"
+                                    asp-items="@(new SelectList(ViewBag.BillNumberDropdown,"Value", "Text"))">
+                                <option value="">Select Bill Number</option>
+                            </select>
+                            <span asp-validation-for="BillId" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="PatientId" class="col-sm-2 col-form-label">Patient Name</label>
+                        <div class="col-sm-4">
+                            <select asp-for="PatientId" class="form-control" id="ddlPatient"
+                                    asp-items="@(new SelectList(ViewBag.PatientDropdown,"Value", "Text"))">
+                                <option value="">Select Patient Name</option>
+                            </select>
+                            <span asp-validation-for="PatientId" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="TotalBill" class="col-sm-2 col-form-label">Total Bill</label>
+                        <div class="col-sm-4">
+                            <input id="txtTotalBill" type="number"asp-for="TotalBill" class="form-control" placeholder="Total Bill"
+                                   value="" autocomplete="off">
+                            <span asp-validation-for="TotalBill" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="Amount" class="col-sm-2 col-form-label">Amount</label>
+                        <div class="col-sm-4">
+                            <input id="txtAmount" type="number" asp-for="Amount" class="form-control" placeholder="Amount"
+                                   value="" autocomplete="off">
+                            <span asp-validation-for="Amount" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="PaymentTypeEnum" class="col-sm-2  col-form-label">Payment Type</label>
+                        <div class="col-sm-4">
+                            <select asp-for="PaymentTypeEnum" id="ddlPaymentType" class="form-control" asp-items="Html.GetEnumSelectList<PaymentTypeEnum>()">
+                                <option value="">Select Payment Type</option>
+                            </select>
+                            <span asp-validation-for="PaymentTypeEnum" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="BankName" class="col-sm-2 col-form-label">Bank Name</label>
+                        <div class="col-sm-4">
+                            <input id="txtBankName" type="text" asp-for="BankName" class="form-control" placeholder="Bank Name"
+                                   value="" autocomplete="off">
+                            <span asp-validation-for="BankName" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <input hidden asp-for="PaymentId" id="hdnPaymentId" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                <center>
+                                    <input value="Submit" type="submit" id="btnSubmit" class="btn btn-primary" />
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Payment Details List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table id="tblPaymentDetails" class="table table-striped responsive-utilities jambo_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function () {
+        $('#txtTotalBill').prop('disabled', true);
+    });
+
+    var jsonData =@Html.Raw(Json.Serialize(Model.TblPayment));
+    window.operateEvents = {
+        'click .editPaymentDetails': function (e, value, row, index) {
+            var _paymentDetailModel = new PaymentDetailModel();
+            _paymentDetailModel.resetPaymentDetailModel();
+            Window.existingModel = row;
+            _paymentDetailModel.setPaymentDetailModel(row);
+        }
+    }
+</script>
+<script src="@Url.Content("~/ApplicationScripts/paymentdetails.js")"></script>

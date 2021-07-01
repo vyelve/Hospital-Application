@@ -1,0 +1,203 @@
+﻿@using HospitalProject.ViewModel
+@model HospitalProject.ViewModel.PatientViewModel
+@{ ViewBag.Title = "Patient";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; }
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer !important;
+    }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Create Patient Details</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mt-3" id="patientform">
+                    <div class="form-group row">
+                        <label asp-for="FirstName" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-4">
+                            <input id="txtFirstName" asp-for="FirstName" class="form-control" placeholder="First Name" autocomplete="off">
+                            <span asp-validation-for="FirstName" class="text-danger field-validation-valid"></span>
+                        </div>
+
+                        <label asp-for="MiddleName" class="col-sm-2 col-form-label">Middle Name</label>
+                        <div class="col-sm-4">
+                            <input id="txtMiddleName" asp-for="MiddleName" class="form-control" placeholder="Middle Name" autocomplete="off">
+                            <span asp-validation-for="MiddleName" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="LastName" class="col-sm-2 col-form-label">Last Name</label>
+                        <div class="col-sm-4">
+                            <input id="txtLastName" asp-for="LastName" class="form-control" placeholder="Last Name" autocomplete="off">
+                            <span asp-validation-for="LastName" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="GenderEnum" class="col-sm-2  col-form-label">Gender</label>
+                        <div class="col-sm-4">
+                            <select asp-for="GenderEnum" id="ddlGender" class="form-control" asp-items="Html.GetEnumSelectList<GenderEnum>()">
+                                <option value="">Select Gender</option>
+                            </select>
+                            <span asp-validation-for="GenderEnum" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="PhoneNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                        <div class="col-sm-4">
+                            <input id="txtPhoneNumber" asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" value="">
+                            <span asp-validation-for="PhoneNumber" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="DOB" class="col-sm-2 col-form-label">Date of Birth</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input id="txtDOB" type="text" asp-for="DOB" class="form-control" placeholder="Date of Birth" value="" autocomplete="off">
+                            </div>
+                            <span asp-validation-for="DOB" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MaritalStatusEnum" class="col-sm-2  col-form-label">Marital Status</label>
+                        <div class="col-sm-4">
+                            <select asp-for="MaritalStatusEnum" id="ddlMaritalStatus" class="form-control" asp-items="Html.GetEnumSelectList<MaritalStatusEnum>()">
+                                <option value="">Select Marital Status</option>
+                            </select>
+                            <span asp-validation-for="MaritalStatusEnum" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="Address" class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-4">
+                            <textarea id="txtAddress" asp-for="Address" class="form-control"
+                                      placeholder="Address" autocomplete="off"></textarea>
+                            <span asp-validation-for="Address" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="EmergencyContactPerson" class="col-sm-2 col-form-label">Emergency Contact Person</label>
+                        <div class="col-sm-4">
+                            <input id="txtEmergencyContactPerson" asp-for="EmergencyContactPerson" class="form-control"
+                                   placeholder="Emergency Contact Person" autocomplete="off">
+                            <span asp-validation-for="EmergencyContactPerson" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="EmergencyContactNumber" class="col-sm-2 col-form-label">Emergency Contact Number</label>
+                        <div class="col-sm-4">
+                            <input id="txtEmergencyContactNumber" asp-for="EmergencyContactNumber" class="form-control"
+                                   placeholder="Emergency Contact Number" value="">
+                            <span asp-validation-for="EmergencyContactNumber" class="text-danger field-validation-valid"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MedicalHistory" class="col-sm-2 col-form-label">Medical History</label>
+                        <div class="col-sm-4">
+                            <textarea id="txtMedicalHistory" asp-for="MedicalHistory" class="form-control"
+                                      placeholder="Medical History" autocomplete="off"></textarea>
+                            <span asp-validation-for="MedicalHistory" class="text-danger field-validation-valid"></span>
+                        </div>
+                        <label asp-for="DoctorId" class="col-sm-2 col-form-label">Doctor</label>
+                        <div class="col-sm-4">
+                            <select asp-for="DoctorId" class="form-control" id="ddlDoctor"
+                                    asp-items="@(new SelectList(ViewBag.DoctorDropdown,"Value", "Text"))">
+                                <option value="">Select Doctor</option>
+                            </select>
+                            <span asp-validation-for="DoctorId" class="text-danger field-validation-valid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="HasInsurance" class="col-sm-2 col-form-label">Has Insurance</label>
+                        <div class="col-sm-4">
+                            <div>
+                                <input type="checkbox" asp-for="HasInsurance" class="form-check-input" id="chkHasInsurance"
+                                       data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <label asp-for="Insuranceid" class="col-sm-2 col-form-label">Insurance Number</label>
+                        <div class="col-sm-4">
+                            <input id="txtInsuranceId" asp-for="Insuranceid" class="form-control"
+                                   placeholder="Insurance Number" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="HasAdmitted" class="col-sm-2 col-form-label">Is Admitted</label>
+                        <div class="col-sm-4">
+                            <div>
+                                <input type="checkbox" asp-for="HasAdmitted" class="form-check-input" id="chkHasAdmitted"
+                                       data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+
+                        <input hidden asp-for="PatientID" id="hdnPatientID" />
+                        <input hidden asp-for="PatientNumber" id="hdnPatientNumber" />
+                        <input hidden asp-for="Age" id="hdnAge" />
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                <center>
+                                    <input value="Submit" type="submit" id="btnSubmit" class="btn btn-primary" />
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Patients Details List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table id="tblPatientDetails" class="table table-striped responsive-utilities jambo_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtDOB").val('');
+        $('#chkHasInsurance').bootstrapToggle('on');
+        $('#chkHasAdmitted').bootstrapToggle('on');
+
+        $("#txtDOB").datepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy'
+        });
+    });
+
+    var jsonData =@Html.Raw(Json.Serialize(Model.TblPatientDetails));
+    window.operateEvents = {
+        'click .editPatient': function (e, value, row, index) {
+            debugger;
+            var _patientModel = new PatientDetailsModel();
+            _patientModel.resetPatientDetailsModel();
+            Window.existingModel = row;
+            _patientModel.setPatientDetailsModel(row);
+        }
+    }
+</script>
+<script src="@Url.Content("~/ApplicationScripts/patient.js")"></script>
