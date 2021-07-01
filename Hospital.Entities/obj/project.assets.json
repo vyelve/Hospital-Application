@@ -8,24 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Vishal Yelve\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\vyelve\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Study Materials\\Projects\\Practice\\HospitalApp\\HospitalProject\\Hospital.Entities\\Hospital.Entities.csproj",
+      "projectUniqueName": "C:\\WorkingProjects\\Practice\\Code\\Hospital.Entities\\Hospital.Entities.csproj",
       "projectName": "Hospital.Entities",
-      "projectPath": "F:\\Study Materials\\Projects\\Practice\\HospitalApp\\HospitalProject\\Hospital.Entities\\Hospital.Entities.csproj",
-      "packagesPath": "C:\\Users\\Vishal Yelve\\.nuget\\packages\\",
-      "outputPath": "F:\\Study Materials\\Projects\\Practice\\HospitalApp\\HospitalProject\\Hospital.Entities\\obj\\",
+      "projectPath": "C:\\WorkingProjects\\Practice\\Code\\Hospital.Entities\\Hospital.Entities.csproj",
+      "packagesPath": "C:\\Users\\vyelve\\.nuget\\packages\\",
+      "outputPath": "C:\\WorkingProjects\\Practice\\Code\\Hospital.Entities\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Vishal Yelve\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\vyelve\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -65,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
       }
     }
   }

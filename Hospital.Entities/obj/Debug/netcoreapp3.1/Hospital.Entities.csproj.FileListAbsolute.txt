@@ -7,3 +7,12 @@ F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entiti
 F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.csproj.CoreCompileInputs.cache
 F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.dll
 F:\Study Materials\Projects\Practice\HospitalApp\HospitalProject\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.pdb
+C:\WorkingProjects\Practice\Code\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.deps.json
+C:\WorkingProjects\Practice\Code\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.dll
+C:\WorkingProjects\Practice\Code\Hospital.Entities\bin\Debug\netcoreapp3.1\Hospital.Entities.pdb
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.csprojAssemblyReference.cache
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.AssemblyInfoInputs.cache
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.AssemblyInfo.cs
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.csproj.CoreCompileInputs.cache
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.dll
+C:\WorkingProjects\Practice\Code\Hospital.Entities\obj\Debug\netcoreapp3.1\Hospital.Entities.pdb
